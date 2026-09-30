@@ -73,6 +73,28 @@ http://181.78.79.131:8000/play/a0p3
 #EXTGRP:Noticias
 https://streaming.telered.com.ar/provincial/streaming/mystream.m3u8
 
+
+# ============================================================
+# ESTILO DE VIDA
+# ============================================================
+#EXTINF:0 group-title="Estilo de vida",EL GOURMET HD
+#EXTGRP:Estilo de vida
+https://iptv.bitred.cl/ELGOURMET_HD/index.m3u8
+
+#EXTINF:0 group-title="Estilo de vida",Fashion TV
+#EXTGRP:Estilo de vida
+https://radiosargentina.com.ar/php/artvDI.php?id=ARCD_CABA_____CFASHIONTV_
+
+#EXTINF:0 group-title="Estilo de vida",Hola! TV Latin America
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:Estilo de vida
+http://15.204.246.24:8080/HOLATVHD/index.m3u8
+
+
+#EXTINF:0 group-title="Estilo de vida",Caras TV
+#EXTGRP:Estilo de vida
+https://unlimited1-us.dps.live/carastv/carastv.smil/playlist.m3u8
+
 # ============================================================
 # PELÍCULAS
 # ============================================================
