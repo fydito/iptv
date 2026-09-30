@@ -1,11 +1,23 @@
 #EXTM3U
 
-# FYDITO IPTV - Lista normalizada y categorizada
+# ============================================================
+# FYDITO IPTV
+# Categorías especiales:
+#   - Argentina!     -> selección argentina/campo
+#   - PlutoTV        -> colección transversal de canales Pluto
+#   - Series Retro   -> colección transversal de series clásicas
+#   - Estilo de vida -> cocina, moda, tendencias, autos y lifestyle
+#
+# NOTA: Argentina!, PlutoTV y Series Retro repiten deliberadamente
+# algunos canales. Es necesario porque M3U admite un solo group-title
+# por entrada y queremos que también sigan visibles en su grupo original.
+# ============================================================
 
 
 # ============================================================
 # CANALES DE AIRE
 # ============================================================
+
 #EXTINF:0 group-title="Canales de aire",América TV
 #EXTVLCOPT:http-user-agent=Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/112.0.0.0 Mobile Safari/537.36
 #EXTGRP:Canales de aire
@@ -39,6 +51,7 @@ http://45.134.141.161:2200/ARG/TELEFE_HD/index.m3u8
 # ============================================================
 # NOTICIAS
 # ============================================================
+
 #EXTINF:0 group-title="Noticias",24/7 Canal de Noticias
 #EXTGRP:Noticias
 https://panel.host-live.com:19360/cn247tv/cn247tv.m3u8
@@ -75,29 +88,38 @@ https://streaming.telered.com.ar/provincial/streaming/mystream.m3u8
 
 
 # ============================================================
-# ESTILO DE VIDA
+# ARGENTINA!
 # ============================================================
-#EXTINF:0 group-title="Estilo de vida",EL GOURMET HD
-#EXTGRP:Estilo de vida
-https://iptv.bitred.cl/ELGOURMET_HD/index.m3u8
 
-#EXTINF:0 group-title="Estilo de vida",Fashion TV
-#EXTGRP:Estilo de vida
-https://radiosargentina.com.ar/php/artvDI.php?id=ARCD_CABA_____CFASHIONTV_
+#EXTINF:0 group-title="Argentina!",Agrotendencia TV
+#EXTGRP:Argentina!
+https://5fc584f3f19c9.streamlock.net/agrotendencia/videoagrotendencia_hls1/playlist.m3u8
 
-#EXTINF:0 group-title="Estilo de vida",Hola! TV Latin America
-#EXTVLCOPT:network-caching=1000
-#EXTGRP:Estilo de vida
-http://15.204.246.24:8080/HOLATVHD/index.m3u8
+#EXTINF:0 group-title="Argentina!",Argentinísima
+#EXTGRP:Argentina!
+https://radiosargentina.com.ar/php/artvDI.php?id=ARCD_CABA_____CARGENTINIS
 
+#EXTINF:0 group-title="Argentina!",Argentinísima Satelital
+#EXTGRP:Argentina!
+https://stream1.sersat.com/hls/argentinisima.m3u8?checkedby:iptvcat.com
 
-#EXTINF:0 group-title="Estilo de vida",Caras TV
-#EXTGRP:Estilo de vida
-https://unlimited1-us.dps.live/carastv/carastv.smil/playlist.m3u8
+#EXTINF:0 group-title="Argentina!",Argentinísima Satelital - Alternativo
+#EXTGRP:Argentina!
+https://stream1.sersat.com/hls/argentinisima.m3u8
+
+#EXTINF:0 group-title="Argentina!",Canal Santa Maria
+#EXTGRP:Argentina!
+https://streaming.telered.com.ar/santa-maria/streaming/mystream.m3u8
+
+#EXTINF:0 group-title="Argentina!",Chacra TV
+#EXTGRP:Argentina!
+https://5f700d5b2c46f.streamlock.net/chacratv/chacratv/playlist.m3u8
+
 
 # ============================================================
 # PELÍCULAS
 # ============================================================
+
 #EXTINF:0 group-title="Películas",AMC
 #EXTGRP:Películas
 https://radiosargentina.com.ar/php/artvDI.php?id=ARCD_CABA_____CAMC_______
@@ -184,6 +206,7 @@ http://181.78.79.131:8000/play/a0pz
 # ============================================================
 # INFANTILES
 # ============================================================
+
 #EXTINF:0 group-title="Infantiles",BabyFirst Spanish
 #EXTVLCOPT:network-caching=1000
 #EXTGRP:Infantiles
@@ -261,6 +284,7 @@ http://23.237.104.106:8080/USA_BOOMERANG/index.m3u8
 # ============================================================
 # ADOLESCENTES
 # ============================================================
+
 #EXTINF:0 group-title="Adolescentes",Adult Swim Latin America
 #EXTGRP:Adolescentes
 http://138.121.15.230:9002/ADULT-SWIM/index.m3u8
@@ -289,6 +313,7 @@ https://jmp2.uk/plu-5dcde17bf6591d0009839e02.m3u8
 # ============================================================
 # MÚSICA
 # ============================================================
+
 #EXTINF:0 group-title="Música",Azahares Radiovisual Multimedia
 #EXTGRP:Música
 https://streamyes.alsolnet.com/azaharesfm/live/playlist.m3u8
@@ -362,6 +387,7 @@ https://jmp2.uk/plu-5f85cf621d6d2200079f1de0.m3u8
 # ============================================================
 # INTERNACIONALES
 # ============================================================
+
 #EXTINF:0 group-title="Internacionales",DW Español
 #EXTGRP:Internacionales
 https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8
@@ -412,6 +438,7 @@ http://181.78.79.131:8000/play/a0qu
 # ============================================================
 # SERIES Y ENTRETENIMIENTO
 # ============================================================
+
 #EXTINF:0 group-title="Series y entretenimiento",AXN Latin America
 #EXTVLCOPT:network-caching=1000
 #EXTGRP:Series y entretenimiento
@@ -499,11 +526,6 @@ http://181.78.79.131:8000/play/a0mt
 #EXTGRP:Series y entretenimiento
 http://181.78.79.131:8000/play/a0mu
 
-#EXTINF:0 group-title="Series y entretenimiento",TLC
-#EXTVLCOPT:network-caching=1000
-#EXTGRP:Series y entretenimiento
-http://181.78.79.131:8000/play/a0t3
-
 #EXTINF:0 group-title="Series y entretenimiento",TNT Novelas
 #EXTVLCOPT:network-caching=1000
 #EXTGRP:Series y entretenimiento
@@ -511,8 +533,146 @@ http://181.78.79.131:8000/play/a0na
 
 
 # ============================================================
+# SERIES RETRO
+# ============================================================
+
+#EXTINF:0 group-title="Series Retro",Hechizada
+#EXTGRP:Series Retro
+https://jmp2.uk/plu-631fb6be21b7440007b9f606.m3u8
+
+#EXTINF:0 group-title="Series Retro",MacGyver (United States) LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:Series Retro
+https://jmp2.uk/plu-63eb95baa99571000898a078.m3u8
+
+#EXTINF:0 group-title="Series Retro",Mi Bella Genio
+#EXTGRP:Series Retro
+https://jmp2.uk/plu-68ffc086a530e036bc8f0305.m3u8
+
+#EXTINF:0 group-title="Series Retro",Pluto TV Series Retro
+#EXTGRP:Series Retro
+https://jmp2.uk/plu-5de802659167b10009e7deba.m3u8
+
+
+# ============================================================
+# PLUTOTV
+# ============================================================
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Cine Comedia (United States) LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5dcdde78f080d900098550e4.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Cine Drama LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5dcddfcb229eff00091b6bdf.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Cine Familia LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5dd6ddb30a1d8a000908ed4c.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Cine Romance LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5dd7ea2aeab5230009986735.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Junior LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5dcde2ac4bc6c500094ab45b.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Kids LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5dd6dae8ce788b0009eaf77b.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Anime LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5dcde17bf6591d0009839e02.m3u8
+
+#EXTINF:0 group-title="PlutoTV",MTV Pluto TV LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5fab088b3279760007d4e4fd.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Karaoke por Stingray LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5f85cf621d6d2200079f1de0.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Comedy Central Pluto TV LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5ffcc21a432945000762d06b.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Comedia Made in Spain
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5f1abce155a03d0007718834.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Novelas LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5dcde0cc2efd2700090b7ff4.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Series Retro
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5de802659167b10009e7deba.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Historia (United States) LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5de5758e1a30dc00094fcd6c.m3u8
+
+#EXTINF:0 group-title="PlutoTV",Pluto TV Sci-Fi (United States) LatAm
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:PlutoTV
+https://jmp2.uk/plu-5f2817d3d7573a00080f9175.m3u8
+
+
+# ============================================================
+# ESTILO DE VIDA
+# ============================================================
+
+#EXTINF:0 group-title="Estilo de vida",EL GOURMET HD
+#EXTGRP:Estilo de vida
+https://iptv.bitred.cl/ELGOURMET_HD/index.m3u8
+
+#EXTINF:0 group-title="Estilo de vida",Fashion TV
+#EXTGRP:Estilo de vida
+https://radiosargentina.com.ar/php/artvDI.php?id=ARCD_CABA_____CFASHIONTV_
+
+#EXTINF:0 group-title="Estilo de vida",Hola! TV Latin America
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:Estilo de vida
+http://15.204.246.24:8080/HOLATVHD/index.m3u8
+
+#EXTINF:0 group-title="Estilo de vida",Caras TV
+#EXTGRP:Estilo de vida
+https://unlimited1-us.dps.live/carastv/carastv.smil/playlist.m3u8
+
+#EXTINF:0 group-title="Estilo de vida",TLC
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:Estilo de vida
+http://181.78.79.131:8000/play/a0t3
+
+#EXTINF:0 group-title="Estilo de vida",Caras TV - Alternativo
+#EXTGRP:Estilo de vida
+https://radiosargentina.com.ar/php/artvDI.php?id=ARCD_CABA___WEBCARASTV___
+
+#EXTINF:0 group-title="Estilo de vida",Garage TV Latin America
+#EXTVLCOPT:network-caching=1000
+#EXTGRP:Estilo de vida
+https://stream1.sersat.com/hls/garagetv.m3u8
+
+
+# ============================================================
 # DEPORTES
 # ============================================================
+
 #EXTINF:0 group-title="Deportes",Canal Showsport
 #EXTGRP:Deportes
 https://livestream.lumpentv.com.ar/hls/lumpen.m3u8
@@ -579,6 +739,7 @@ http://181.78.79.131:8000/play/a0q9
 # ============================================================
 # DOCUMENTALES
 # ============================================================
+
 #EXTINF:0 group-title="Documentales",History 2 Latin America
 #EXTVLCOPT:network-caching=1000
 #EXTGRP:Documentales
@@ -623,6 +784,7 @@ http://181.78.79.131:8000/play/a0pt
 # ============================================================
 # OTROS
 # ============================================================
+
 #EXTINF:0 group-title="Otros",5tv
 #EXTGRP:Otros
 https://617c5175c970b.streamlock.net:4444/tvcinco/live1/playlist.m3u8
@@ -692,14 +854,6 @@ https://tdcserver.com:19360/tdconlione-2/tdconlione-2.m3u8
 #EXTGRP:Otros
 https://videostream.shockmedia.com.ar/hls/canaluniversidadmdp/canaluniversidadmdp.m3u8
 
-#EXTINF:0 group-title="Otros",Caras TV
-#EXTGRP:Otros
-https://unlimited1-us.dps.live/carastv/carastv.smil/playlist.m3u8
-
-#EXTINF:0 group-title="Otros",Caras TV - Alternativo
-#EXTGRP:Otros
-https://radiosargentina.com.ar/php/artvDI.php?id=ARCD_CABA___WEBCARASTV___
-
 #EXTINF:0 group-title="Otros",Chacra TV
 #EXTGRP:Otros
 https://5f700d5b2c46f.streamlock.net/chacratv/chacratv/playlist.m3u8
@@ -724,32 +878,13 @@ https://canaletaplus.com:3922/live/cosmoslive.m3u8
 #EXTGRP:Otros
 https://stream.arcast.com.ar/ecotv/ngrp:ecotv_all/playlist.m3u8
 
-#EXTINF:0 group-title="Otros",EL GOURMET HD
-#EXTGRP:Otros
-https://iptv.bitred.cl/ELGOURMET_HD/index.m3u8
-
 #EXTINF:0 group-title="Otros",Estrella TV
 #EXTGRP:Otros
 https://radiosargentina.com.ar/php/artvDI.php?id=ARCD_CABA_____CESTRELLATV
 
-#EXTINF:0 group-title="Otros",Fashion TV
-#EXTGRP:Otros
-https://radiosargentina.com.ar/php/artvDI.php?id=ARCD_CABA_____CFASHIONTV_
-
 #EXTINF:0 group-title="Otros",Galicia TV
 #EXTGRP:Otros
 https://radiosargentina.com.ar/php/artvDI.php?id=ARCD_CABA_____CGALICIATV_
-
-#EXTINF:0 group-title="Otros",Garage TV Latin America
-#EXTVLCOPT:network-caching=1000
-#EXTGRP:Otros
-https://stream1.sersat.com/hls/garagetv.m3u8
-
-#EXTINF:0 group-title="Otros",Hola! TV Latin America
-#EXTVLCOPT:network-caching=1000
-#EXTGRP:Otros
-http://15.204.246.24:8080/HOLATVHD/index.m3u8
-
 
 #EXTINF:0 group-title="Otros",Neox TV
 #EXTGRP:Otros
@@ -789,4 +924,18 @@ https://cdn1.tvlin.net/open/telesol/playlist.m3u8
 #EXTGRP:Otros
 https://stratus.stream.cespi.unlp.edu.ar/hls/tvunlp.m3u8
 
+# ============================================================
+# CANALES YOUTUBE
+# ============================================================
 
+#EXTINF:-1 tvg-id="ElNueveYouTube.ar" group-title="Canales de aire",El Nueve
+#EXTGRP:Canales de aire
+https://www.youtube.com/watch?v=e4VpCP8KWLY
+
+#EXTINF:-1 group-title="Noticias",C5N
+#EXTGRP:Noticias
+https://www.youtube.com/watch?v=j6oh4Kqz3UM
+
+#EXTINF:-1 group-title="Canales de aire",TV Pública
+#EXTGRP:Canales de aire
+https://www.youtube.com/watch?v=rfdEOwAgZVw

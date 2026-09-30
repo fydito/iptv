@@ -447,6 +447,13 @@ button,input {
   <!-- REPRODUCTOR -->
   <section class="playerWrap" id="playerWrap">
    <video id="video" controls playsinline></video>
+    <!-- Reproductor alternativo para canales alojados en YouTube. -->
+    <iframe id="youtubePlayer"
+            title="Reproductor de YouTube"
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowfullscreen
+            style="display:none;width:100%;height:100%;border:0;background:#000">
+    </iframe>
    <div class="playerEmpty" id="empty"><div class="tv">📺</div><h2>Fydito IPTV</h2><div>Elegí un canal para comenzar</div></div>
    <div class="status" id="status">Listo</div>
    <div class="overlay"><div class="now"><h2 id="nowName">Ningún canal seleccionado</h2><p id="nowGroup">Elegí uno de la lista</p></div><div class="actions"><button class="iconBtn" id="favNow" title="Favorito">☆</button><button class="iconBtn" id="full" title="Pantalla completa">⛶</button></div></div>
@@ -478,6 +485,7 @@ const DEFAULT_LIST = 'mis_canales_fyditoIPTV.m3u';
 /* Referencias rápidas al DOM y estado general. */
 const $ = s => document.querySelector(s);
 const video = $('#video');
+const youtubePlayer = $('#youtubePlayer');
 let channels = [];
 let filtered = [];
 let current = null;
@@ -509,19 +517,59 @@ function afterLoad(){
 }
 
 /* Categorías tomadas de group-title. */
-function groups(){return [...new Set(channels.map(c=>c.group))]}
+/* Categorías reales del M3U + colecciones especiales del index.
+   Las colecciones NO duplican canales en el M3U: son filtros virtuales. */
+const SPECIAL_GROUPS = ['Argentina!','PlutoTV','Series Retro','Estilo de vida'];
+
+function isArgentina(c){
+  const x=(c.name+' '+c.group).toLowerCase();
+  return ['argentinísima','argentinisima','agrotendencia','chacra','campo','rural','santa maria','santa maría']
+    .some(k=>x.includes(k));
+}
+
+function isPluto(c){
+  const x=(c.name+' '+c.url).toLowerCase();
+  return x.includes('pluto');
+}
+
+function isRetro(c){
+  const x=c.name.toLowerCase();
+  return ['mi bella genio','hechizada','macgyver','series retro']
+    .some(k=>x.includes(k));
+}
+
+function isLifestyle(c){
+  const x=(c.name+' '+c.group).toLowerCase();
+  return c.group.toLowerCase()==='estilo de vida'
+    || ['gourmet','fashion','hola!','caras tv','garage tv','tlc','cocina','moda']
+       .some(k=>x.includes(k));
+}
+
+function specialMatch(c,g){
+  if(g==='Argentina!') return isArgentina(c);
+  if(g==='PlutoTV') return isPluto(c);
+  if(g==='Series Retro') return isRetro(c);
+  if(g==='Estilo de vida') return isLifestyle(c);
+  return false;
+}
+
+function groups(){
+  const real=[...new Set(channels.map(c=>c.group))]
+    .filter(g=>!SPECIAL_GROUPS.includes(g));
+  return [...SPECIAL_GROUPS,...real];
+}
 
 /* Construye el menú lateral de categorías. */
 function renderNav(){const n=$('#nav');const defs=[['Todos','▦'],['Favoritos','★'],['Recientes','↺'],...groups().map(g=>[g,iconFor(g)])];n.innerHTML=defs.map(([g,ic])=>`<button data-g="${esc(g)}" class="${g===selectedGroup?'active':''}"><span>${ic} ${esc(g)}</span><span class="count">${countGroup(g)}</span></button>`).join('');n.querySelectorAll('button').forEach(b=>b.onclick=()=>{selectedGroup=b.dataset.g;renderNav();applyFilter()})}
 
 /* Elige un icono según el nombre de la categoría. */
-function iconFor(g){const x=g.toLowerCase();if(x.includes('aire'))return'📡';if(x.includes('notic'))return'📰';if(x.includes('pel'))return'🎬';if(x.includes('infant'))return'🧸';if(x.includes('adolesc'))return'🎮';if(x.includes('mús')||x.includes('mus'))return'♫';if(x.includes('intern'))return'🌎';if(x.includes('serie'))return'📺';if(x.includes('deport'))return'⚽';if(x.includes('doc'))return'🌿';return'•'}
+function iconFor(g){const x=g.toLowerCase();if(g==='Argentina!')return'🇦🇷';if(g==='PlutoTV')return'🪐';if(g==='Series Retro')return'📼';if(g==='Estilo de vida')return'✨';if(x.includes('aire'))return'📡';if(x.includes('notic'))return'📰';if(x.includes('pel'))return'🎬';if(x.includes('infant'))return'🧸';if(x.includes('adolesc'))return'🎮';if(x.includes('mús')||x.includes('mus'))return'♫';if(x.includes('intern'))return'🌎';if(x.includes('serie'))return'📺';if(x.includes('deport'))return'⚽';if(x.includes('doc'))return'🌿';return'•'}
 
 /* Cuenta canales para los indicadores del menú. */
-function countGroup(g){if(g==='Todos')return channels.length;if(g==='Favoritos')return channels.filter(c=>favs.has(c.id)).length;if(g==='Recientes')return recent.length;return channels.filter(c=>c.group===g).length}
+function countGroup(g){if(g==='Todos')return channels.length;if(g==='Favoritos')return channels.filter(c=>favs.has(c.id)).length;if(g==='Recientes')return recent.length;if(SPECIAL_GROUPS.includes(g))return channels.filter(c=>specialMatch(c,g)).length;return channels.filter(c=>c.group===g).length}
 
 /* Aplica categoría + texto del buscador. */
-function applyFilter(){let q=$('#search').value.trim().toLowerCase();if(selectedGroup==='Favoritos')filtered=channels.filter(c=>favs.has(c.id));else if(selectedGroup==='Recientes')filtered=recent.map(id=>channels.find(c=>c.id===id)).filter(Boolean);else filtered=channels.filter(c=>selectedGroup==='Todos'||c.group===selectedGroup);if(q)filtered=filtered.filter(c=>(c.name+' '+c.group).toLowerCase().includes(q));$('#sectionTitle').textContent=selectedGroup==='Todos'?'Todos los canales':selectedGroup;renderChannels()}
+function applyFilter(){let q=$('#search').value.trim().toLowerCase();if(selectedGroup==='Favoritos')filtered=channels.filter(c=>favs.has(c.id));else if(selectedGroup==='Recientes')filtered=recent.map(id=>channels.find(c=>c.id===id)).filter(Boolean);else if(SPECIAL_GROUPS.includes(selectedGroup))filtered=channels.filter(c=>specialMatch(c,selectedGroup));else filtered=channels.filter(c=>selectedGroup==='Todos'||c.group===selectedGroup);if(q)filtered=filtered.filter(c=>(c.name+' '+c.group).toLowerCase().includes(q));$('#sectionTitle').textContent=selectedGroup==='Todos'?'Todos los canales':selectedGroup;renderChannels()}
 
 /* Dibuja las tarjetas de canales. */
 function renderChannels(){const box=$('#channels');box.innerHTML=filtered.map((c,i)=>`<button class="channel ${current&&current.id===c.id?'playing':''}" data-i="${i}"><span class="logo">${c.logo?`<img src="${esc(c.logo)}" loading="lazy" onerror="this.remove();this.parentNode.textContent='${esc(c.name.slice(0,2).toUpperCase())}'">`:esc(c.name.slice(0,2).toUpperCase())}</span><span><div class="ctitle">${esc(c.name)}</div><div class="cgroup">${esc(c.group)}</div></span><span class="star ${favs.has(c.id)?'on':''}">${favs.has(c.id)?'★':'☆'}</span></button>`).join('')||'<div style="color:var(--muted);padding:20px">No hay canales en esta vista.</div>';box.querySelectorAll('.channel').forEach(b=>b.onclick=e=>{const c=filtered[+b.dataset.i];if(e.target.classList.contains('star'))toggleFav(c);else play(c)})}
@@ -529,11 +577,69 @@ function renderChannels(){const box=$('#channels');box.innerHTML=filtered.map((c
 /* Actualiza la pastilla de estado del reproductor. */
 function setStatus(msg,err=false,ok=false){const s=$('#status');s.textContent=msg;s.className='status'+(err?' error':ok?' ok':'')}
 
+/* ===== SOPORTE PARA CANALES DE YOUTUBE =====
+   Acepta:
+   - youtube.com/watch?v=ID
+   - youtu.be/ID
+   - youtube.com/live/ID
+   - youtube.com/embed/ID
+*/
+function youtubeId(url){
+  try{
+    const u=new URL(url);
+    const host=u.hostname.replace(/^www\./,'').toLowerCase();
+
+    if(host==='youtu.be'){
+      return u.pathname.split('/').filter(Boolean)[0] || '';
+    }
+
+    if(host.endsWith('youtube.com')){
+      if(u.pathname==='/watch') return u.searchParams.get('v') || '';
+
+      const parts=u.pathname.split('/').filter(Boolean);
+      if(['live','embed','shorts'].includes(parts[0])) return parts[1] || '';
+    }
+  }catch(e){}
+
+  return '';
+}
+
+function isYoutube(url){
+  return !!youtubeId(url);
+}
+
+function playYoutube(url){
+  const id=youtubeId(url);
+  if(!id) return false;
+
+  video.style.display='none';
+  youtubePlayer.style.display='block';
+
+  /* autoplay=1 intenta arrancar automáticamente.
+     Si YouTube exige interacción, basta con tocar/clickear el reproductor. */
+  youtubePlayer.src =
+    'https://www.youtube.com/embed/' +
+    encodeURIComponent(id) +
+    '?autoplay=1&rel=0&playsinline=1';
+
+  setStatus('YOUTUBE EN VIVO',false,true);
+  return true;
+}
+
 /* Limpia la reproducción anterior antes de cambiar de canal. */
-function cleanup(){if(hls){hls.destroy();hls=null}video.pause();video.removeAttribute('src');video.load()}
+function cleanup(){
+  if(hls){hls.destroy();hls=null}
+  video.pause();
+  video.removeAttribute('src');
+  video.load();
+  video.style.display='block';
+  youtubePlayer.src='about:blank';
+  youtubePlayer.style.display='none';
+}
 
 /* Reproduce un canal usando hls.js cuando corresponde. */
 function play(c){current=c;localStorage.setItem('fydito-last-channel',c.id);cleanup();$('#empty').style.display='none';$('#nowName').textContent=c.name;$('#nowGroup').textContent=c.group;recent=[c.id,...recent.filter(x=>x!==c.id)].slice(0,12);localStorage.setItem('fydito-recent',JSON.stringify(recent));updateFavNow();renderChannels();setStatus('Conectando…');const u=c.url;
+ if(isYoutube(u)){playYoutube(u);return;}
  if(location.protocol==='https:'&&u.startsWith('http:')){setStatus('Stream HTTP: el navegador puede bloquearlo',true);toast('Este canal usa HTTP. VLC puede reproducirlo, pero una página HTTPS puede bloquearlo por contenido mixto.')}
  if(window.Hls&&Hls.isSupported() && /\.m3u8|m3u8\?|playlist|chunks|master|index/i.test(u)){hls=new Hls({enableWorker:true,lowLatencyMode:false});hls.loadSource(u);hls.attachMedia(video);hls.on(Hls.Events.MANIFEST_PARSED,()=>{setStatus('EN VIVO',false,true);video.play().catch(()=>{})});hls.on(Hls.Events.ERROR,(ev,d)=>{if(d.fatal){setStatus('No se pudo reproducir en navegador',true);if(d.type===Hls.ErrorTypes.NETWORK_ERROR)toast('El stream respondió con un error de red/CORS. Probalo en VLC: el navegador tiene restricciones adicionales.');else toast('Este stream funciona con un formato que el navegador no pudo reproducir.')}})}
  else if(video.canPlayType('application/vnd.apple.mpegurl')||!u.includes('.m3u8')){video.src=u;video.play().catch(()=>{});setStatus('Reproduciendo…',false,true)}else{setStatus('HLS no soportado',true)} }
