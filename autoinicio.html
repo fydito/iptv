@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fydito IPTV</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1"></script>
+<style>
+:root{--bg:#080b12;--panel:#101522;--panel2:#171e2e;--text:#f5f7fb;--muted:#9ba7bb;--accent:#39d6c5;--line:#242d40;--danger:#ff6b78;--gold:#ffd166}
+*{box-sizing:border-box}html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;overflow:hidden}
+button,input{font:inherit}.app{height:100%;display:grid;grid-template-columns:270px minmax(0,1fr)}
+.sidebar{background:linear-gradient(180deg,#111827,#0c111b);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.brand{padding:22px 20px 14px}.brand h1{margin:0;font-size:25px;letter-spacing:-.8px}.brand h1 b{color:var(--accent)}.brand small{color:var(--muted)}
+.search{padding:0 14px 12px}.search input{width:100%;border:1px solid var(--line);background:#090e17;color:white;border-radius:12px;padding:11px 12px;outline:none}.search input:focus{border-color:var(--accent)}
+.nav{padding:0 9px;overflow:auto}.nav button{width:100%;display:flex;justify-content:space-between;gap:8px;padding:10px 12px;margin:2px 0;border:0;border-radius:10px;background:transparent;color:#c7d0df;text-align:left;cursor:pointer}.nav button:hover,.nav button.active{background:var(--panel2);color:white}.nav .count{color:var(--muted);font-size:12px}
+.sidefoot{margin-top:auto;padding:12px;border-top:1px solid var(--line);display:grid;gap:7px}.ghost{border:1px solid var(--line);background:#0b111c;color:#cbd5e1;border-radius:10px;padding:9px;cursor:pointer}.ghost:hover{border-color:#4b5a73;color:white}
+.main{display:grid;grid-template-rows:minmax(300px,56vh) minmax(0,1fr);min-width:0;min-height:0}.playerWrap{position:relative;background:#000;display:grid;place-items:center;overflow:hidden}.playerWrap video{width:100%;height:100%;object-fit:contain;background:#000}
+.playerEmpty{position:absolute;text-align:center;color:var(--muted);pointer-events:none}.playerEmpty .tv{font-size:62px;filter:grayscale(.2);opacity:.65}.playerEmpty h2{color:white;margin:8px 0 4px}
+.overlay{position:absolute;inset:auto 0 0;background:linear-gradient(transparent,rgba(0,0,0,.92));padding:55px 22px 17px;display:flex;align-items:end;justify-content:space-between;gap:16px;pointer-events:none}.now h2{margin:0 0 3px;font-size:22px}.now p{margin:0;color:#b9c4d5;font-size:13px}.actions{display:flex;gap:8px;pointer-events:auto}.iconBtn{width:42px;height:42px;border-radius:50%;border:1px solid #ffffff2b;background:#10141ccc;color:white;cursor:pointer;font-size:18px}.iconBtn:hover{background:#20293a}.iconBtn.fav{color:var(--gold)}
+.status{position:absolute;top:14px;left:14px;background:#0b1019d9;border:1px solid #ffffff20;padding:7px 10px;border-radius:999px;font-size:12px;color:#d7deea;backdrop-filter:blur(8px)}.status.error{color:#ffd7da;border-color:#ff6b7866}.status.ok{color:#bffbf3;border-color:#39d6c566}
+.browser{min-height:0;display:flex;flex-direction:column;background:var(--bg)}.toolbar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 8px;gap:12px}.toolbar h3{margin:0;font-size:18px}.toolbar span{font-size:12px;color:var(--muted)}
+.channels{padding:6px 14px 22px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:9px;overflow:auto}.channel{min-height:72px;border:1px solid var(--line);background:var(--panel);color:white;border-radius:13px;padding:10px 12px;display:grid;grid-template-columns:42px 1fr 28px;align-items:center;gap:9px;text-align:left;cursor:pointer}.channel:hover,.channel:focus{border-color:#53627c;background:#151c2a;outline:none;transform:translateY(-1px)}.channel.playing{border-color:var(--accent);box-shadow:0 0 0 1px #39d6c530}.logo{width:42px;height:42px;border-radius:10px;background:#222b3d;display:grid;place-items:center;overflow:hidden;font-weight:800;color:#d7e0ef}.logo img{width:100%;height:100%;object-fit:contain;background:white}.ctitle{font-size:13px;font-weight:650;line-height:1.2}.cgroup{font-size:11px;color:var(--muted);margin-top:4px}.star{color:#69758a;text-align:center}.star.on{color:var(--gold)}
+.toast{position:fixed;right:18px;bottom:18px;max-width:380px;background:#141b29;border:1px solid var(--line);border-radius:12px;padding:12px 14px;color:#dbe4f2;box-shadow:0 14px 45px #0008;display:none;z-index:10}.toast.show{display:block}
+.mobileTop{display:none}.fileInput{display:none}
+@media(max-width:780px){html,body{overflow:auto}.app{display:block;height:auto;min-height:100%}.sidebar{position:sticky;top:0;z-index:5;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:10px 14px 5px}.brand small,.sidefoot{display:none}.brand h1{font-size:20px}.search{padding:5px 10px 8px}.nav{display:flex;gap:5px;overflow:auto;padding:0 9px 8px}.nav button{white-space:nowrap;width:auto;margin:0;padding:8px 10px}.nav .count{display:none}.main{display:block}.playerWrap{height:52vw;min-height:230px;max-height:55vh;position:sticky;top:94px;z-index:4}.overlay{padding:35px 12px 10px}.now h2{font-size:16px}.now p{display:none}.channels{grid-template-columns:1fr 1fr;padding:5px 8px 25px}.channel{min-height:65px;padding:8px;grid-template-columns:36px 1fr 20px}.logo{width:36px;height:36px}.toolbar{padding:12px 10px 6px}}
+@media(max-width:480px){.channels{grid-template-columns:1fr}.playerWrap{top:94px}}
+</style>
+</head>
+<body>
+<div class="app">
+ <aside class="sidebar">
+  <div class="brand"><h1>Fydito<b>IPTV</b></h1><small>Tu tele. Tus canales.</small></div>
+  <div class="search"><input id="search" placeholder="Buscar canal…" autocomplete="off"></div>
+  <nav class="nav" id="nav"></nav>
+  <div class="sidefoot"><button class="ghost" id="loadFile">📂 Cargar otra lista M3U</button><button class="ghost" id="reload">↻ Recargar lista</button></div>
+ </aside>
+ <main class="main">
+  <section class="playerWrap" id="playerWrap">
+   <video id="video" controls playsinline></video>
+   <div class="playerEmpty" id="empty"><div class="tv">📺</div><h2>Fydito IPTV</h2><div>Elegí un canal para comenzar</div></div>
+   <div class="status" id="status">Listo</div>
+   <div class="overlay"><div class="now"><h2 id="nowName">Ningún canal seleccionado</h2><p id="nowGroup">Elegí uno de la lista</p></div><div class="actions"><button class="iconBtn" id="favNow" title="Favorito">☆</button><button class="iconBtn" id="full" title="Pantalla completa">⛶</button></div></div>
+  </section>
+  <section class="browser"><div class="toolbar"><h3 id="sectionTitle">Todos los canales</h3><span id="summary"></span></div><div class="channels" id="channels"></div></section>
+ </main>
+</div>
+<input class="fileInput" type="file" id="file" accept=".m3u,.m3u8,text/plain">
+<div class="toast" id="toast"></div>
+<script>
+const DEFAULT_LIST='mis_canales_fyditoIPTV.m3u';
+const $=s=>document.querySelector(s); const video=$('#video');
+let channels=[], filtered=[], current=null, hls=null, selectedGroup='Todos';
+const favs=new Set(JSON.parse(localStorage.getItem('fydito-favs')||'[]'));
+let recent=JSON.parse(localStorage.getItem('fydito-recent')||'[]');
+const esc=s=>(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._x);t._x=setTimeout(()=>t.classList.remove('show'),4200)}
+function parseM3U(text){const ls=text.replace(/\r/g,'').split('\n');let out=[];for(let i=0;i<ls.length;i++){if(!ls[i].startsWith('#EXTINF'))continue;const meta=ls[i];let name=(meta.split(',').slice(1).join(',')||'Sin nombre').trim();const attr=k=>{const m=meta.match(new RegExp(k+'="([^"]*)"','i'));return m?m[1]:''};let url='';for(i=i+1;i<ls.length&&!ls[i].startsWith('#EXTINF');i++){const s=ls[i].trim();if(s&&!s.startsWith('#')){url=s;break}}if(url)out.push({name,url,group:attr('group-title')||'Otros',logo:attr('tvg-logo'),id:attr('tvg-id')||url});}return out}
+async function loadDefault(){setStatus('Cargando lista…');try{const r=await fetch(DEFAULT_LIST+'?v='+Date.now());if(!r.ok)throw 0;channels=parseM3U(await r.text());afterLoad()}catch(e){setStatus('No pude leer el M3U',true);toast('Abrí Fydito IPTV con Live Server (o desde un servidor web) para que pueda leer el archivo M3U. También podés usar “Cargar otra lista M3U”.')}}
+function afterLoad(){
+ setStatus('Lista cargada',false,true);
+ renderNav();applyFilter();$('#summary').textContent=channels.length+' canales';
+ const lastId=localStorage.getItem('fydito-last-channel');
+ const startup=channels.find(c=>c.id===lastId)
+   || channels.find(c=>c.name.toLowerCase().includes('telefe'))
+   || channels[0];
+ if(startup) setTimeout(()=>play(startup),120);
+}
+function groups(){return [...new Set(channels.map(c=>c.group))]}
+function renderNav(){const n=$('#nav');const defs=[['Todos','▦'],['Favoritos','★'],['Recientes','↺'],...groups().map(g=>[g,iconFor(g)])];n.innerHTML=defs.map(([g,ic])=>`<button data-g="${esc(g)}" class="${g===selectedGroup?'active':''}"><span>${ic} ${esc(g)}</span><span class="count">${countGroup(g)}</span></button>`).join('');n.querySelectorAll('button').forEach(b=>b.onclick=()=>{selectedGroup=b.dataset.g;renderNav();applyFilter()})}
+function iconFor(g){const x=g.toLowerCase();if(x.includes('aire'))return'📡';if(x.includes('notic'))return'📰';if(x.includes('pel'))return'🎬';if(x.includes('infant'))return'🧸';if(x.includes('adolesc'))return'🎮';if(x.includes('mús')||x.includes('mus'))return'♫';if(x.includes('intern'))return'🌎';if(x.includes('serie'))return'📺';if(x.includes('deport'))return'⚽';if(x.includes('doc'))return'🌿';return'•'}
+function countGroup(g){if(g==='Todos')return channels.length;if(g==='Favoritos')return channels.filter(c=>favs.has(c.id)).length;if(g==='Recientes')return recent.length;return channels.filter(c=>c.group===g).length}
+function applyFilter(){let q=$('#search').value.trim().toLowerCase();if(selectedGroup==='Favoritos')filtered=channels.filter(c=>favs.has(c.id));else if(selectedGroup==='Recientes')filtered=recent.map(id=>channels.find(c=>c.id===id)).filter(Boolean);else filtered=channels.filter(c=>selectedGroup==='Todos'||c.group===selectedGroup);if(q)filtered=filtered.filter(c=>(c.name+' '+c.group).toLowerCase().includes(q));$('#sectionTitle').textContent=selectedGroup==='Todos'?'Todos los canales':selectedGroup;renderChannels()}
+function renderChannels(){const box=$('#channels');box.innerHTML=filtered.map((c,i)=>`<button class="channel ${current&&current.id===c.id?'playing':''}" data-i="${i}"><span class="logo">${c.logo?`<img src="${esc(c.logo)}" loading="lazy" onerror="this.remove();this.parentNode.textContent='${esc(c.name.slice(0,2).toUpperCase())}'">`:esc(c.name.slice(0,2).toUpperCase())}</span><span><div class="ctitle">${esc(c.name)}</div><div class="cgroup">${esc(c.group)}</div></span><span class="star ${favs.has(c.id)?'on':''}">${favs.has(c.id)?'★':'☆'}</span></button>`).join('')||'<div style="color:var(--muted);padding:20px">No hay canales en esta vista.</div>';box.querySelectorAll('.channel').forEach(b=>b.onclick=e=>{const c=filtered[+b.dataset.i];if(e.target.classList.contains('star'))toggleFav(c);else play(c)})}
+function setStatus(msg,err=false,ok=false){const s=$('#status');s.textContent=msg;s.className='status'+(err?' error':ok?' ok':'')}
+function cleanup(){if(hls){hls.destroy();hls=null}video.pause();video.removeAttribute('src');video.load()}
+function play(c){current=c;localStorage.setItem('fydito-last-channel',c.id);cleanup();$('#empty').style.display='none';$('#nowName').textContent=c.name;$('#nowGroup').textContent=c.group;recent=[c.id,...recent.filter(x=>x!==c.id)].slice(0,12);localStorage.setItem('fydito-recent',JSON.stringify(recent));updateFavNow();renderChannels();setStatus('Conectando…');const u=c.url;
+ if(location.protocol==='https:'&&u.startsWith('http:')){setStatus('Stream HTTP: el navegador puede bloquearlo',true);toast('Este canal usa HTTP. VLC puede reproducirlo, pero una página HTTPS puede bloquearlo por contenido mixto.')}
+ if(window.Hls&&Hls.isSupported() && /\.m3u8|m3u8\?|playlist|chunks|master|index/i.test(u)){hls=new Hls({enableWorker:true,lowLatencyMode:false});hls.loadSource(u);hls.attachMedia(video);hls.on(Hls.Events.MANIFEST_PARSED,()=>{setStatus('EN VIVO',false,true);video.play().catch(()=>{})});hls.on(Hls.Events.ERROR,(ev,d)=>{if(d.fatal){setStatus('No se pudo reproducir en navegador',true);if(d.type===Hls.ErrorTypes.NETWORK_ERROR)toast('El stream respondió con un error de red/CORS. Probalo en VLC: el navegador tiene restricciones adicionales.');else toast('Este stream funciona con un formato que el navegador no pudo reproducir.')}})}
+ else if(video.canPlayType('application/vnd.apple.mpegurl')||!u.includes('.m3u8')){video.src=u;video.play().catch(()=>{});setStatus('Reproduciendo…',false,true)}else{setStatus('HLS no soportado',true)} }
+function toggleFav(c){if(favs.has(c.id))favs.delete(c.id);else favs.add(c.id);localStorage.setItem('fydito-favs',JSON.stringify([...favs]));updateFavNow();renderNav();applyFilter()}
+function updateFavNow(){$('#favNow').textContent=current&&favs.has(current.id)?'★':'☆';$('#favNow').classList.toggle('fav',!!(current&&favs.has(current.id)))}
+$('#favNow').onclick=()=>current&&toggleFav(current);$('#search').oninput=applyFilter;$('#full').onclick=()=>$('#playerWrap').requestFullscreen?.();
+$('#loadFile').onclick=()=>$('#file').click();$('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;channels=parseM3U(await f.text());selectedGroup='Todos';afterLoad();toast('Lista cargada: '+f.name)};$('#reload').onclick=loadDefault;
+video.addEventListener('playing',()=>setStatus('EN VIVO',false,true));video.addEventListener('waiting',()=>setStatus('Buffering…'));video.addEventListener('error',()=>setStatus('Error de reproducción',true));
+document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==$('#search')){e.preventDefault();$('#search').focus()}if(e.key==='f'&&current&&document.activeElement!==$('#search'))toggleFav(current);if(e.key==='F11'){/* navegador */}});
+loadDefault();
+</script>
+</body></html>
